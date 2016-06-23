@@ -26,5 +26,42 @@ class TitleRule(HeadingRule):
     type ='title'
     first=1
     def condition(self,block):
-        
-    
+        if not self.first:
+            return 0
+        self.first =0
+        return HeadingRule.condition(self,block)
+
+class ListItemRule(Rule):
+    """
+    A list is a paragraph  that begin with a Hyphen. As a part of the
+    formatting,the hyphen is removed.
+    """
+
+    type='listitem'
+    def condition(self,block):
+        return block[0] =='-'
+    def action(self,block,handler):
+        handler.start(self.type)
+        handler.feed(block[1:].strip())
+        handler.end(self.type)
+        return 1
+
+class ListRule(ListItemRule):
+    """
+    Alist begin between a block that is not a list item and a
+    subsequent list item . It ends after the last consecutive list item
+    """
+
+    type='list'
+    inside=0
+
+    def condition(self,block);
+        return 1
+    def action(self,block,handler):
+        if not self.inside and ListItemRule.condition(self,block):
+            handler.start(self.type)
+            handler.inside=1
+        elif self.inside and ListItemRule.condition(self,block):
+            handler.end(self.type)
+            self.inside=0
+        return 0
