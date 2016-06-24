@@ -65,3 +65,12 @@ class ListRule(ListItemRule):
             handler.end(self.type)
             self.inside=0
         return 0
+
+class ParagraphRule(Rule):
+	"""
+	A paragraph is simply a block that isn't covered by any of the other rules.
+	"""
+	
+	type ='paragraph'
+	def condition(self,block):
+		return 1
