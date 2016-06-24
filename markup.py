@@ -1,6 +1,6 @@
 import sys,re
-from handler import *
-from util import *
+from handlers import *
+#from util import *
 from rules import *
 
 class Parser:
@@ -13,7 +13,7 @@ class Parser:
         self.rules = []
         self.filters = []
 	def addRule(self,rule):
-    	self.rules.append(rule)
+		self.rules.append(rule)
     	
     def addFilter(self,pattern,name):
     	def filter(block,handler):
@@ -27,6 +27,7 @@ class Parser:
     			block = filter(block,self.handler)
     		for rule in self.rules:
     			if rule.conditon(block):
+    		
     				last = rule.action(block,self.handler)
     				if last:
     					break;
@@ -42,15 +43,15 @@ class BasicTextParser(Parser):
 		self.addRule(ListRule())
 		self.addRule(ListItemRule())
 		self.addRule(TitleRule())
-		self.addRule(HeadingRule())
+	s	self.addRule(HeadingRule())
 		self.addRule(ParagraphRule())
 		
 		self.addFilter(r'\*(.+?)\*','emphasis')
 		self.addFilter(r'(http://[\.a-zA-Z/]+)','url')
 		self.addFilter(r'([\.a-zA-Z]+@[\.a-zA-Z]+[a-zA-Z]+)','mail')
 		
-	handler=HTMLRender()
-	parser =BasicTextParser()
+handler=HTMLRenderer()
+parser =BasicTextParser(handler)
 	
-	parser.parse(sys.stdin)
+parser.parse(sys.stdin)
     		

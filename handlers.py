@@ -51,7 +51,7 @@ class HTMLRenderer(Handler):
                 print '</li>'
         def start_title(self):
                 print '<h1>'
-        def end_title(self);
+        def end_title(self):
                 print '</h1>'
         def sub_emphasis(self,match):
                 return '<em>%s</em>'%match.group(1)

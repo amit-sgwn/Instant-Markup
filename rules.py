@@ -55,7 +55,7 @@ class ListRule(ListItemRule):
     type='list'
     inside=0
 
-    def condition(self,block);
+    def condition(self,block):
         return 1
     def action(self,block,handler):
         if not self.inside and ListItemRule.condition(self,block):
